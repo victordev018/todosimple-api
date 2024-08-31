@@ -70,6 +70,14 @@ public class User {
         this.username = username;
     }
 
+    public @NotNull(groups = {CreateUser.class, UpdateUser.class}) @NotEmpty(groups = {CreateUser.class, UpdateUser.class}) @Size(min = 8, max = 60, groups = {CreateUser.class, UpdateUser.class}) String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotNull(groups = {CreateUser.class, UpdateUser.class}) @NotEmpty(groups = {CreateUser.class, UpdateUser.class}) @Size(min = 8, max = 60, groups = {CreateUser.class, UpdateUser.class}) String password) {
+        this.password = password;
+    }
+
     public List<Task> getTasks(){
         return tasks;
     }
