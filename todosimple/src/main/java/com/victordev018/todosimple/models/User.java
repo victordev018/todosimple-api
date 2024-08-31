@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -40,7 +42,8 @@ public class User {
     @Size(min = 8, max = 60, groups = {CreateUser.class, UpdateUser.class})
     private String password;
 
-    // private List<Task> tasks = new ArrayList<>();
+    @OneToMany(mappedBy = "user")   // mappedBy variable user from Task
+    private List<Task> tasks = new ArrayList<>();
 
     // constructors
     public User(){
@@ -65,6 +68,10 @@ public class User {
 
     public void setUsername(String username){
         this.username = username;
+    }
+
+    public List<Task> getTasks(){
+        return tasks;
     }
 
     // hashCode and equals
