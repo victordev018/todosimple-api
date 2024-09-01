@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,11 @@ public class TaskService {
         ));
     }
 
+    public List<Task> findAllUserId(Long id){
+        List<Task> tasks = this.taskRepository.findByUser_Id(id);
+        return tasks;
+    }
+
     @Transactional
     public Task create(Task obj){
         User user = this.userService.findById(obj.getUser().getId());
@@ -41,10 +47,10 @@ public class TaskService {
         return this.taskRepository.save(newObj);
     }
 
-    public void delete(Task obj){
-        findById(obj.getId());
+    public void delete(Long id){
+        findById(id);
         try {
-            this.taskRepository.deleteById(obj.getId());
+            this.taskRepository.deleteById(id);
         }
         catch (Exception e){
             throw new RuntimeException("It is not possible to delete because there are related entities!");

@@ -1,5 +1,6 @@
 package com.victordev018.todosimple.controllers;
 
+import com.victordev018.todosimple.dto.task.UserResponseCreated;
 import com.victordev018.todosimple.models.User;
 import com.victordev018.todosimple.services.UserService;
 import jakarta.validation.Valid;
@@ -26,9 +27,9 @@ public class UserController {
 
     @PostMapping
     @Validated(User.CreateUser.class)
-    public ResponseEntity<Void> create(@Valid @RequestBody  User obj){
+    public ResponseEntity<UserResponseCreated> create(@Valid @RequestBody  User obj){
         userService.create(obj);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponseCreated(obj.getId()));
     }
 
     @PutMapping("/{id}")
