@@ -3,6 +3,7 @@ package com.victordev018.todosimple.controllers;
 import com.victordev018.todosimple.dto.task.TaskResponseCreated;
 import com.victordev018.todosimple.models.Task;
 import com.victordev018.todosimple.services.TaskService;
+import com.victordev018.todosimple.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id){
         Task obj = this.taskService.findById(id);
@@ -29,6 +33,7 @@ public class TaskController {
 
     @GetMapping("/user/{user_id}")
     public ResponseEntity<List<Task>> findAllByUserId(@PathVariable Long user_id){
+        userService.findById(user_id);
         List<Task> obj = this.taskService.findAllUserId(user_id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);
     }
