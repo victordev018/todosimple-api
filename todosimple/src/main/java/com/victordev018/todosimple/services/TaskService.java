@@ -3,6 +3,8 @@ package com.victordev018.todosimple.services;
 import com.victordev018.todosimple.models.Task;
 import com.victordev018.todosimple.models.User;
 import com.victordev018.todosimple.repositories.TaskRepository;
+import com.victordev018.todosimple.services.exceptions.DataBindingViolationException;
+import com.victordev018.todosimple.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,7 @@ public class TaskService {
 
     public Task findById(Long id){
         Optional<Task> taskOptional = taskRepository.findById(id);
-        return taskOptional.orElseThrow(() -> new RuntimeException(
+        return taskOptional.orElseThrow(() -> new ObjectNotFoundException(
                 "Task not found id: " + id + ", Type: " + Task.class.getName()
         ));
     }
@@ -53,7 +55,7 @@ public class TaskService {
             this.taskRepository.deleteById(id);
         }
         catch (Exception e){
-            throw new RuntimeException("It is not possible to delete because there are related entities!");
+            throw new DataBindingViolationException("It is not possible to delete because there are related entities!");
         }
     }
 }
